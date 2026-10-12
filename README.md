@@ -1,5 +1,28 @@
 # AI-Powered Manufacturing Defect Detection
 
+## 🚀 Live Demo
+
+Try the deployed application here:
+
+[Launch Manufacturing Defect Detection App](https://sivaramakrishnavakati-cloud-manufacturing-defect--srcapp-yhgpb7.streamlit.app)
+
+## Features
+
+- Steel surface defect classification using ResNet18
+- Six defect categories
+- Prediction confidence and probability visualization
+- Downloadable CSV prediction reports
+- PyTorch-based deep learning model
+- Streamlit web application
+- Private model hosting using Hugging Face
+
+## Disclaimer
+
+This project is an experimental portfolio demonstration.
+Predictions should not be used as the sole basis for industrial
+quality-control decisions. Independent testing on representative
+production data is required before real-world use.
+
 A deep-learning application that classifies steel surface images into six defect categories using PyTorch and a pretrained ResNet18 model.
 
 ## Project Overview
