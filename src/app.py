@@ -6,6 +6,7 @@ import torch
 import torch.nn as nn
 from torchvision import models, transforms
 from PIL import Image
+from huggingface_hub import hf_hub_download
 
 
 # --------------------------------------------------
@@ -13,7 +14,10 @@ from PIL import Image
 # --------------------------------------------------
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
-MODEL_PATH = PROJECT_ROOT / "models" / "defect_resnet18.pth"
+LOCAL_MODEL_PATH = PROJECT_ROOT / "models" / "defect_resnet18.pth"
+
+HF_REPO_ID = "sivaramakrishnav/manufacturing-defect-detection-model"
+MODEL_FILENAME = "defect_resnet18.pth"
 
 DEVICE = torch.device("cpu")
 IMAGE_SIZE = 224
@@ -62,17 +66,28 @@ transform = transforms.Compose([
 
 @st.cache_resource
 def load_model():
-    if not MODEL_PATH.exists():
-        raise FileNotFoundError(
-            f"Model checkpoint not found: {MODEL_PATH}"
+    if LOCAL_MODEL_PATH.exists():
+        model_path = str(LOCAL_MODEL_PATH)
+    else:
+        hf_token = st.secrets.get("HF_TOKEN", None)
+
+        if not hf_token:
+            raise RuntimeError(
+                "Model access token is missing. "
+                "Configure HF_TOKEN in Streamlit secrets."
+            )
+
+        model_path = hf_hub_download(
+            repo_id=HF_REPO_ID,
+            filename=MODEL_FILENAME,
+            token=hf_token,
         )
 
     checkpoint = torch.load(
-        MODEL_PATH,
+        model_path,
         map_location=DEVICE,
         weights_only=True,
     )
-
     class_names = checkpoint["classes"]
 
     model = models.resnet18(weights=None)
