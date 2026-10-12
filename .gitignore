@@ -1,0 +1,22 @@
+# Python environment
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+
+# Local datasets
+data/
+
+# Model checkpoints and downloaded weights
+models/*.pth
+
+# Generated results
+results/
+
+# Streamlit configuration and secrets
+.streamlit/secrets.toml
+
+# Editor and operating-system files
+.vscode/
+.DS_Store
+Thumbs.db
